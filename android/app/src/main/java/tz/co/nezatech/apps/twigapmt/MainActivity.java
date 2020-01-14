@@ -1,4 +1,4 @@
-package nezatech.co.tz.twinga_pmt_webapp;
+package tz.co.nezatech.apps.twigapmt;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

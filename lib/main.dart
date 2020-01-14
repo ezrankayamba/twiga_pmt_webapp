@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(PMTWebView());
@@ -18,12 +19,16 @@ class _PMTWebViewState extends State<PMTWebView> {
     PermissionStatus pStatus = await PermissionHandler()
         .checkPermissionStatus(PermissionGroup.location);
 
-    if(pStatus!=PermissionStatus.granted){
+    if (pStatus != PermissionStatus.granted) {
       debugPrint("Permission Status: " + pStatus.toString());
-      Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.location]);
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.location]);
       debugPrint("Permission Status2: " + permissions.toString());
-    }else{
+    } else {
       debugPrint("Permission Status: " + pStatus.toString());
+      Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      debugPrint("Position: (${position.latitude}, ${position.longitude})");
     }
   }
 
@@ -51,6 +56,7 @@ class _PMTWebViewState extends State<PMTWebView> {
           supportMultipleWindows: true,
           withJavascript: true,
           debuggingEnabled: true,
+          resizeToAvoidBottomInset: true,
         ));
   }
 }
